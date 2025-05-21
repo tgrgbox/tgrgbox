@@ -1,0 +1,14 @@
+http:
+  routers:
+    tgrgbox-web:
+      rule: Host(`{{ env "TGRGBOX_HOST" }}`)
+      tls: 
+        certresolver: tgrgboxresolver
+      service: tgrgbox-web
+  services:
+    tgrgbox-web:
+      loadBalancer:
+        servers:
+          - url: http://{{ env "TGRGBOX_HOST" }}:8080
+
+        

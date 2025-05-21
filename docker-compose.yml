@@ -1,5 +1,3 @@
-version: "3.7"
-
 services:
 #https://hub.docker.com/r/airensoft/ovenmediaengine/tags
   ovenmediaengine:
@@ -21,7 +19,9 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./ome-conf:/opt/ovenmediaengine/bin/origin_conf
     depends_on:
-      - "tgrgbox-web"
+      tgrgbox-web:
+        condition: "service_started"
+        required: false
     restart: unless-stopped
     command: /opt/ovenmediaengine/bin/OvenMediaEngine -c /opt/ovenmediaengine/bin/origin_conf
     labels:
@@ -40,6 +40,7 @@ services:
   tgrgbox-web:
     image: mboilen/tgrgbox-web:0.1.22
     container_name: tgrgbox-web
+    profiles: ["prod"]
     environment:
       - TGRGBOX_API_KEY=${TGRGBOX_WEB_API_KEY}
       - TGRGBOX_DISCORD_CLIENT_ID=${TGRGBOX_DISCORD_CLIENT_ID}
@@ -74,6 +75,10 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik/acme.json:/acme/acme.json
+        #Enable if you're doing local development
+        #- ./dev:/config
+    environment:
+      - TGRGBOX_HOST=${TGRGBOX_HOST}
     command:
       #- "--log.level=DEBUG"
       #- "--accessLog=true"
@@ -82,6 +87,9 @@ services:
       #- "--api.insecure=true"
 
       - "--providers.docker=true"
+
+        #Enable if you're doing local development
+        #- "--providers.file.directory=/config"
 
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
