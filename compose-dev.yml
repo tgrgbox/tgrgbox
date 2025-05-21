@@ -1,0 +1,40 @@
+services:
+  traefik:
+    volumes:
+      - ./dev:/config
+    environment:
+      - TGRGBOX_HOST=${TGRGBOX_HOST}
+      - PORKBUN_API_KEY=${PORKBUN_API_KEY}
+      - PORKBUN_SECRET_API_KEY=${PORKBUN_SECRET_API_KEY}
+    ports:
+      - 80:80
+      - 443:443
+      - 9090:8080
+    command:
+      #- "--log.level=DEBUG"
+      #- "--accessLog=true"
+
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+
+      - "--providers.docker=true"
+
+      - "--providers.file.directory=/config"
+
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+
+      - --certificatesresolvers.tgrgboxresolver.acme.email=${LETSENCRYPT_EMAIL}
+      - --certificatesresolvers.tgrgboxresolver.acme.storage=/acme/acme.json
+      - --certificatesresolvers.tgrgboxresolver.acme.dnsChallenge=true
+      - --certificatesresolvers.tgrgboxresolver.acme.dnsChallenge.provider=porkbun
+      - --certificatesresolvers.tgrgboxresolver.acme.dnsChallenge.resolvers=curitiba.ns.porkbun.com,fortaleza.ns.porkbun.com,maceio.ns.porkbun.com,salvador.ns.porkbun.com
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik-rtr.service=api@internal
+      - traefik.http.routers.traefik-rtr.rule=Host(`td-$TGRGBOX_HOST`)
+      - traefik.http.routers.traefik-rtr.tls.certresolver=tgrgboxresolver
+      - traefik.http.routers.traefik-rtr.tls.domains[0].main=tgrgbox-dev.mgb.monster
+      - traefik.http.routers.traefik-rtr.tls.domains[0].sans=*.tgrgbox-dev.mgb.monster

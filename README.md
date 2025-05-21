@@ -104,6 +104,8 @@ To give your VM a hostname.  Then create an ALIAS record in your DNS provider th
 ## Docker cheat sheet
 ```
 docker compose pull
-docker compose up -d --remove-orphans (add --force-recreate to force creation of containers so you don't have to worry about restarting containers)
+docker compose up -d -f compose.yml -f compose-prod.yml --remove-orphans (add --force-recreate to force creation of containers so you don't have to worry about restarting containers)
 docker system prune -a --volumes
 ```
+
+If you are doing dev, use `compose-dev.yml` instead of `compose-prod.yml`

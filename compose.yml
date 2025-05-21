@@ -18,10 +18,6 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./ome-conf:/opt/ovenmediaengine/bin/origin_conf
-    depends_on:
-      tgrgbox-web:
-        condition: "service_started"
-        required: false
     restart: unless-stopped
     command: /opt/ovenmediaengine/bin/OvenMediaEngine -c /opt/ovenmediaengine/bin/origin_conf
     labels:
@@ -34,31 +30,6 @@ services:
       - "traefik.http.routers.ome-wss-rtr.tls=true"
       - "traefik.http.routers.ome-wss-rtr.tls.certresolver=tgrgboxresolver"
       - "traefik.http.services.ome-wss-rtr.loadbalancer.server.port=3333"
-    networks:
-      - tgrgbox-network
-
-  tgrgbox-web:
-    image: mboilen/tgrgbox-web:0.1.22
-    container_name: tgrgbox-web
-    profiles: ["prod"]
-    environment:
-      - TGRGBOX_API_KEY=${TGRGBOX_WEB_API_KEY}
-      - TGRGBOX_DISCORD_CLIENT_ID=${TGRGBOX_DISCORD_CLIENT_ID}
-      - TGRGBOX_DISCORD_CLIENT_SECRET=${TGRGBOX_DISCORD_CLIENT_SECRET}
-        #- DEBUG=tgrgbox:*
-        #- DEBUG_DEPTH=4
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./tgrgbox/config/default.yml:/app/config/default.yml:ro
-      - ./tgrgbox/data:/app/data
-      - ./tgrgbox/sessions:/app/sessions
-    restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.tgrgbox-web.rule=Host(`$TGRGBOX_HOST`)"
-      - "traefik.http.routers.tgrgbox-web.tls=true"
-      - "traefik.http.routers.tgrgbox-web.tls.certresolver=tgrgboxresolver"
-      - "traefik.http.services.tgrgbox-web.loadbalancer.server.port=8080"
     networks:
       - tgrgbox-network
 
@@ -75,32 +46,6 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik/acme.json:/acme/acme.json
-        #Enable if you're doing local development
-        #- ./dev:/config
-    environment:
-      - TGRGBOX_HOST=${TGRGBOX_HOST}
-    command:
-      #- "--log.level=DEBUG"
-      #- "--accessLog=true"
-
-      #- "--api.dashboard=true"
-      #- "--api.insecure=true"
-
-      - "--providers.docker=true"
-
-        #Enable if you're doing local development
-        #- "--providers.file.directory=/config"
-
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
-      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
-      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
-
-      - "--certificatesresolvers.tgrgboxresolver.acme.httpchallenge=true"
-      - "--certificatesresolvers.tgrgboxresolver.acme.httpchallenge.entrypoint=web"
-      - "--certificatesresolvers.tgrgboxresolver.acme.email=${LETSENCRYPT_EMAIL}"
-      - "--certificatesresolvers.tgrgboxresolver.acme.storage=/acme/acme.json"
-
     labels:
       - "traefik.enable=true"
     networks:
