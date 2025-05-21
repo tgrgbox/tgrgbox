@@ -1,6 +1,8 @@
 
 services:
   ovenmediaengine:
+    environment:
+      - TGRGBOX_WEB_HOST=tgrgbox-web
     depends_on:
       - tgrgbox-web
 

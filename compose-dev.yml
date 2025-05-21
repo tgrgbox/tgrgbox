@@ -1,4 +1,7 @@
 services:
+  ovenmediaengine:
+    environment:
+      - TGRGBOX_WEB_HOST=${TGRGBOX_HOST}
   traefik:
     volumes:
       - ./dev:/config
