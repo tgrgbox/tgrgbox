@@ -6,7 +6,7 @@
   "dependencyDashboard": true,
   "schedule": [
     "before 2am"
-  ]
+  ],
   "packageRules": [
     {
       "description": "Automerge non-major updates",
