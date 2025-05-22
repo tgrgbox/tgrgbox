@@ -7,7 +7,7 @@ services:
       - tgrgbox-web
 
   tgrgbox-web:
-    image: mboilen/tgrgbox-web:-1.1.22
+    image: mboilen/tgrgbox-web:-1.1.23
     container_name: tgrgbox-web
     environment:
       - TGRGBOX_API_KEY=${TGRGBOX_WEB_API_KEY}
