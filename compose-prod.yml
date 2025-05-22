@@ -1,0 +1,51 @@
+
+services:
+  ovenmediaengine:
+    environment:
+      - TGRGBOX_WEB_HOST=tgrgbox-web
+    depends_on:
+      - tgrgbox-web
+
+  tgrgbox-web:
+    image: mboilen/tgrgbox-web:-1.1.23
+    container_name: tgrgbox-web
+    environment:
+      - TGRGBOX_API_KEY=${TGRGBOX_WEB_API_KEY}
+      - TGRGBOX_DISCORD_CLIENT_ID=${TGRGBOX_DISCORD_CLIENT_ID}
+      - TGRGBOX_DISCORD_CLIENT_SECRET=${TGRGBOX_DISCORD_CLIENT_SECRET}
+        #- DEBUG=tgrgbox:*
+        #- DEBUG_DEPTH=3
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./tgrgbox/config/default.yml:/app/config/default.yml:ro
+      - ./tgrgbox/data:/app/data
+      - ./tgrgbox/sessions:/app/sessions
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tgrgbox-web.rule=Host(`$TGRGBOX_HOST`)"
+      - "traefik.http.routers.tgrgbox-web.tls=true"
+      - "traefik.http.routers.tgrgbox-web.tls.certresolver=tgrgboxresolver"
+      - "traefik.http.services.tgrgbox-web.loadbalancer.server.port=8079"
+    networks:
+      - tgrgbox-network
+
+  traefik:
+    command:
+      #- "--log.level=DEBUG"
+      #- "--accessLog=true"
+
+      #- "--api.dashboard=true"
+      #- "--api.insecure=true"
+
+      - "--providers.docker=true"
+
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+
+      - "--certificatesresolvers.tgrgboxresolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.tgrgboxresolver.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.tgrgboxresolver.acme.email=${LETSENCRYPT_EMAIL}"
+      - "--certificatesresolvers.tgrgboxresolver.acme.storage=/acme/acme.json"

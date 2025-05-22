@@ -80,7 +80,7 @@
 			</Signalling>
 
 			<IceCandidates>
-				<IceCandidate>*:10000/udp</IceCandidate>
+				<IceCandidate>${env:WHIP_IP_ADDRESS:*}:10000-10005/udp</IceCandidate>
 				<!-- 
 					If you want to stream WebRTC over TCP, specify IP:Port for TURN server.
 					This uses the TURN protocol, which delivers the stream from the built-in TURN server to the player's TURN client over TCP. 
@@ -88,7 +88,7 @@
 				-->
 				<TcpRelay>*:3478</TcpRelay>
 				<!-- TcpForce is an option to force the use of TCP rather than UDP in WebRTC streaming. (You can omit ?transport=tcp accordingly.) If <TcpRelay> is not set, playback may fail. -->
-				<TcpForce>true</TcpForce>
+				<TcpForce>false</TcpForce>
 				<TcpRelayWorkerCount>1</TcpRelayWorkerCount>
 			</IceCandidates>
 		</WebRTC>
@@ -205,7 +205,7 @@
 			-->
 
 			<AdmissionWebhooks>
-				<ControlServerUrl>http://tgrgbox-web:8080/api/ome</ControlServerUrl>
+				<ControlServerUrl>http://${env:TGRGBOX_WEB_HOST}:8080/api/ome</ControlServerUrl>
 				<SecretKey>${env:TGRGBOX_WEB_API_KEY}</SecretKey>
 				<Timeout>3000</Timeout>
 				<Enables>
@@ -256,9 +256,9 @@
 							<Name>bypass_stream</Name>
 							<OutputStreamName>${OriginStreamName}</OutputStreamName>
 							<Encodes>
-								<Audio>
+								<!--<Audio>
 									<Bypass>true</Bypass>
-								</Audio>
+								</Audio>-->
 								<Video>
 									<Bypass>true</Bypass>
 								</Video>
@@ -267,6 +267,9 @@
 									<Bitrate>128000</Bitrate>
 									<Samplerate>48000</Samplerate>
 									<Channel>2</Channel>
+									<BypassIfMatch>
+										<Codec>eq</Codec>
+									</BypassIfMatch>
 								</Audio>
 								<!-- 							
 								<Video>
