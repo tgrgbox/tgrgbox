@@ -256,11 +256,41 @@
 							<Name>bypass_stream</Name>
 							<OutputStreamName>${OriginStreamName}</OutputStreamName>
 							<Encodes>
-								<!--<Audio>
-									<Bypass>true</Bypass>
-								</Audio>-->
 								<Video>
 									<Bypass>true</Bypass>
+								</Video>
+								<Audio>
+									<Codec>opus</Codec>
+									<Bitrate>128000</Bitrate>
+									<Samplerate>48000</Samplerate>
+									<Channel>2</Channel>
+									<BypassIfMatch>
+										<Codec>eq</Codec>
+									</BypassIfMatch>
+								</Audio>
+								<!-- 							
+								<Video>
+									<Codec>vp8</Codec>
+									<Bitrate>1024000</Bitrate>
+									<Framerate>30</Framerate>
+									<Width>1280</Width>
+									<Height>720</Height>
+									<Preset>faster</Preset>
+								</Video>
+								-->
+							</Encodes>
+						</OutputProfile>
+						<OutputProfile>
+							<Name>thumbnail</Name>
+							<OutputStreamName>${OriginStreamName}-thumbnail</OutputStreamName>
+							<Encodes>
+								<Video>
+									<Codec>h264</Codec>
+									<Bitrate>1000</Bitrate>
+									<Framerate>15</Framerate>
+									<Width>320</Width>
+									<Height>240</Height>
+									<Preset>faster</Preset>
 								</Video>
 								<Audio>
 									<Codec>opus</Codec>
