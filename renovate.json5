@@ -1,17 +1,21 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base",
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'config:recommended',
   ],
-  "dependencyDashboard": true,
-  "schedule": [
-    "before 2am"
+  dependencyDashboard: true,
+  schedule: [
+    'before 2am',
   ],
-  "packageRules": [
+  packageRules: [
     {
-      "description": "Automerge non-major updates",
-      "matchUpdateTypes": ["digest", "minor", "patch"],
-      "automerge": true
-    }
-  ]
+      description: 'Automerge non-major updates',
+      matchUpdateTypes: [
+        'digest',
+        'minor',
+        'patch',
+      ],
+      automerge: true,
+    },
+  ],
 }
