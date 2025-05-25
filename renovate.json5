@@ -9,13 +9,31 @@
   ],
   packageRules: [
     {
-      description: 'Automerge non-major updates',
-      matchUpdateTypes: [
-        'digest',
-        'minor',
-        'patch',
-      ],
+      description: 'Automerge minor/patch updates for Traefik',
+      matchDatasources: ['docker'],
+      matchPackageNames: ['traefik'],
+      matchUpdateTypes: ['minor', 'patch'],
       automerge: true,
+    },
+    {
+      description: 'Create PRs for major updates to Traefik',
+      matchDatasources: ['docker'],
+      matchPackageNames: ['traefik'],
+      matchUpdateTypes: ['major'],
+      automerge: false,
+    },
+    {
+      description: 'Automerge all updates for OvenMediaEngine',
+      matchDatasources: ['docker'],
+      matchPackageNames: ['airensoft/ovenmediaengine'],
+      automerge: true,
+    },
+    {
+      description: 'Automerge all updates for tgrgbox-web and pin by image hash',
+      matchDatasources: ['docker'],
+      matchPackageNames: ['mboilen/tgrgbox-web'],
+      automerge: true,
+      pinDigests: true,
     },
   ],
 }
