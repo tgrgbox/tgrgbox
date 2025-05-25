@@ -17,7 +17,7 @@ services:
       - TGRGBOX_WEB_API_KEY=${TGRGBOX_WEB_API_KEY}
       #If your host is not on the public internet, you need to manually set the IP address for the host.  OME doesn't
       #derive this correctly (it will find your real public IP address presumably using STUN).
-      - WHIP_IP_ADDRESS=${WHIP_IP_ADDRESS}
+      - WHIP_IP_ADDRESS=${WHIP_IP_ADDRESS:-}
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./ome-conf:/opt/ovenmediaengine/bin/origin_conf
