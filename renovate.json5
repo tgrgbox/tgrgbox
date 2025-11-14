@@ -14,6 +14,7 @@
       matchPackageNames: ['traefik'],
       matchUpdateTypes: ['minor', 'patch'],
       automerge: true,
+      ignoreTests: true,
     },
     {
       description: 'Create PRs for major updates to Traefik',
@@ -27,6 +28,7 @@
       matchDatasources: ['docker'],
       matchPackageNames: ['airensoft/ovenmediaengine'],
       automerge: true,
+      ignoreTests: true,
     },
     {
       description: 'Automerge all updates for tgrgbox-web and pin by image hash',
@@ -34,6 +36,7 @@
       matchPackageNames: ['mboilen/tgrgbox-web'],
       automerge: true,
       pinDigests: true,
+      ignoreTests: true,
     },
   ],
 }
