@@ -70,8 +70,10 @@ includes all users as well as all streams and streamers.  The easiest way to get
 
 ## Run the docker stack
 cd into the root directory and run
-```docker create network tgrgbox-network
-docker compose up -d``` 
+```
+docker create network tgrgbox-network
+docker compose up -d
+```
 (or `docker-compose` if you're on an older version of docker compose)
 
 Once that's done you should be able to navigate to https://TGRGBOX_HOST.  
@@ -95,6 +97,7 @@ If you need to forward ports, forward
 |ICE candidates | 10000-10005/udp|
 
 ## Azure DNS
+
 Rather than messing with Azure DNS, you can give you VM a host name.  Follow the steps in:
 
 https://docs.microsoft.com/en-us/azure/virtual-machines/create-fqdn
@@ -102,6 +105,7 @@ https://docs.microsoft.com/en-us/azure/virtual-machines/create-fqdn
 To give your VM a hostname.  Then create an ALIAS record in your DNS provider that points to that name.  NGinx can then create the correct certificate
 
 ## Docker cheat sheet
+
 ```
 docker compose pull
 docker compose up -d -f compose.yml -f compose-prod.yml --remove-orphans (add --force-recreate to force creation of containers so you don't have to worry about restarting containers)
