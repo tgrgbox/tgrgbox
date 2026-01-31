@@ -53,7 +53,7 @@ Log out and back in again to pick up the new group
 ```git clone git@github.com:mboilen/tgrgbox.git```
 
 ## Fill in .env ##
-Copy `env.template` to env and fill in the information
+Copy `env.template` to `.env` and fill in the information
 
 | Environment Variable | Value |
 |---|---|
