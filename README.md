@@ -50,7 +50,7 @@ Log out and back in again to pick up the new group
 # Installation
 
 ## Clone the git repo:
-```git clone git@github.com:mboilen/tgrgbox.git```
+```git clone git@github.com:tgrgbox/tgrgbox.git```
 
 ## Fill in .env ##
 Copy `env.template` to env and fill in the information
