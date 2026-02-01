@@ -4,7 +4,7 @@ Go to https://discord.com/developers/applications and log in
 Create an application 
 
 Add redirects that match web endpoint for tgrgbace.  For example, if your tgrgbace
-setup is at https://tgrgbox.example.com, add a redirect for https://tgrgbox.example.com/login/\_oauth.  Save the OAuth2 secrets; you'll need these secrets for later.
+setup is at https://tgrgbox.example.com, add a redirect for `https://tgrgbox.example.com/login/_oauth`.  Save the OAuth2 secrets; you'll need these secrets for later.
 
 More info at: https://discord.com/developers/docs/topics/oauth2
 
