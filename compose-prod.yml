@@ -7,7 +7,7 @@ services:
       - tgrgbox-web
 
   tgrgbox-web:
-    image: mboilen/tgrgbox-web:latest@sha256:e9c59f1e42a62a8772c164254c44c575a7f5c09f9a2c3d5d17bbe58d34dd2ba5
+    image: mboilen/tgrgbox-web:latest@sha256:1a3d344c02e8982eb90a460c294eb6cea65f99a39efa7fdf063f8b20c7f5ce4b
     container_name: tgrgbox-web
     environment:
       - TGRGBOX_API_KEY=${TGRGBOX_WEB_API_KEY}
